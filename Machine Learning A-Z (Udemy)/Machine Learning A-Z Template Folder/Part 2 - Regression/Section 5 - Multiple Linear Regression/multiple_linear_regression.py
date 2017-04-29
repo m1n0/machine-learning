@@ -30,4 +30,25 @@ regressor = LinearRegression()
 regressor.fit(X_train, y_train)
 
 # Predicting the Test set results
-y_predict = regressor.predict(X_test)
+y_pred = regressor.predict(X_test)
+
+# Building the optimal model using Backward Elimination
+import statsmodels.formula.api as sm
+X = np.append(values = X, arr = np.ones((len(X), 1)).astype(int), axis = 1)
+X_opt = X[:, [0, 1, 2, 3, 4, 5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+
+# Remove insignificant features
+X_opt = X[:, [0, 1, 3, 4, 5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+
+X_opt = X[:, [0, 3, 4, 5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+
+X_opt = X[:, [0, 3, 5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+
+X_opt = X[:, [0, 3]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
