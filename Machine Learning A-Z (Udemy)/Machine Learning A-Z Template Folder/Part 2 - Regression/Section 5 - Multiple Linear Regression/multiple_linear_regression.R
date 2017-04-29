@@ -15,3 +15,19 @@ set.seed(123)
 split = sample.split(dataset$Profit, SplitRatio = 0.8)
 training_set = subset(dataset, split == TRUE)
 test_set = subset(dataset, split == FALSE)
+
+# Fitting Multiple Linear Regression to the Training set
+regressor = lm(formula = Profit ~ .,
+               data = training_set)
+
+# Predicting test data
+y_pred = predict(regressor, newdata = test_set)
+
+# Building the optomal model using Backward Elimination
+regressor = lm(formula = Profit ~ R.D.Spend + Administration + Marketing.Spend + State,
+               data = dataset)
+summary(regressor)
+
+regressor = lm(formula = Profit ~ R.D.Spend + Administration + Marketing.Spend,
+               data = dataset)
+summary(regressor)
