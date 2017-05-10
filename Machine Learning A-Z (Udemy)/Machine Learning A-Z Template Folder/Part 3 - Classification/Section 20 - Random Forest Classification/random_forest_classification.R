@@ -20,7 +20,11 @@ training_set[-3] = scale(training_set[-3])
 test_set[-3] = scale(test_set[-3])
 
 # Fitting classifier to the Training set
-# Create your classifier here
+# install.packages('randomForest')
+library(randomForest)
+classifier = randomForest(x = training_set[-3],
+                          y = training_set$Purchased,
+                          ntree = 50)
 
 # Predicting the Test set results
 y_pred = predict(classifier, newdata = test_set[-3])
