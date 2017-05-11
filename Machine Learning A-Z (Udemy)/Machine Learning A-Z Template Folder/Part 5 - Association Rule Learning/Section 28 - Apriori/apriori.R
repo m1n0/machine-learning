@@ -9,7 +9,7 @@ summary(dataset)
 itemFrequencyPlot(dataset, topN = 50)
 
 # Training Apriori on the dataset
-rules = apriori(data = dataset, parameter = list(support = 0.003, confidence = 0.2))
+rules = apriori(data = dataset, parameter = list(support = 0.004, confidence = 0.2))
 
 # Visualising the results
 inspect(sort(rules, by = 'lift')[1:10])
