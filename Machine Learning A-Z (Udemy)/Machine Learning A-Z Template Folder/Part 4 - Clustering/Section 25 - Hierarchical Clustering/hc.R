@@ -1,16 +1,34 @@
-# Data Preprocessing Template
+# Hierarchical clustering
 
 # Importing the dataset
-dataset = read.csv('Data.csv')
+dataset = read.csv('Mall_Customers.csv')
 
-# Splitting the dataset into the Training set and Test set
-# install.packages('caTools')
-library(caTools)
 set.seed(123)
-split = sample.split(dataset$DependentVariable, SplitRatio = 0.8)
-training_set = subset(dataset, split == TRUE)
-test_set = subset(dataset, split == FALSE)
 
-# Feature Scaling
-# training_set = scale(training_set)
-# test_set = scale(test_set)
+X <- dataset[4:5]
+
+# Denrogram
+dendrogram = hclust(dist(X, method = 'euclidean'), method = 'ward.D')
+
+plot(dendrogram,
+     main = paste('Dendrogram'),
+     xlab = 'Customers',
+     ylab = 'Eucliedean Distances')
+
+# Fitting
+hc = hclust(dist(X, method = 'euclidean'), method = 'ward.D')
+y_hc = cutree(tree = hc, k = 5)
+
+# Visualising the clusters
+library(cluster)
+clusplot(X,
+         y_hc,
+         lines = 0,
+         shade = TRUE,
+         color = TRUE,
+         labels = 2,
+         plotchar = FALSE,
+         span = TRUE,
+         main = paste('Clusters of clients'),
+         xlab = 'Annual Income',
+         ylab = 'Spending Score')
