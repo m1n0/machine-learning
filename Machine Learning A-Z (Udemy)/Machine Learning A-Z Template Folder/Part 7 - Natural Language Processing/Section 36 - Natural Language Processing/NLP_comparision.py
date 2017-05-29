@@ -12,6 +12,7 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 
 # Importing the dataset
 dataset = pd.read_csv('Restaurant_Reviews.tsv', delimiter = '\t', quoting = 3)
@@ -71,6 +72,10 @@ classifier = RandomForestClassifier(n_estimators = 100,
                                     criterion = 'entropy',
                                     random_state = 0)
 cms.append({"type": "Random Forest", "cm": classification_helper.classify(classifier, X, y)})
+
+# C5.0
+classifier = DecisionTreeClassifier()
+cms.append({"type": "C5.0", "cm": classification_helper.classify(classifier, X, y)})
 
 results = []
 ### Compare the results
