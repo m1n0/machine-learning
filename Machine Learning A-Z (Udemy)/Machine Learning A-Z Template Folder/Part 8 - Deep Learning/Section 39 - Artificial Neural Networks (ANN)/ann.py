@@ -42,6 +42,23 @@ import keras
 from keras.models import Sequential
 from keras.layers import Dense
 
+# serialize model to JSON
+"""model_json = classifier.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
+# serialize weights to HDF5
+#lassifier.save_weights("model.h5")
+print("Saved model to disk")"""
+
+# load json and create model
+"""from keras.models import model_from_json
+json_file = open('model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+classifier = model_from_json(loaded_model_json)
+# load weights into new model
+classifier.load_weights("model.h5")"""
+
 # Initializing the ANN
 classifier = Sequential()
 
