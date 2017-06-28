@@ -41,7 +41,7 @@ accuracies.std()
 # Applying Grid Search to find the best model and the best parameters
 from sklearn.model_selection import GridSearchCV
 parameters = [{'C': [1, 10, 100, 1000], 'kernel': ['linear']},
-              {'C': [1, 10, 100, 1000], 'kernel': ['rbf'], 'gamma': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}]
+              {'C': [1, 10, 100, 1000], 'kernel': ['rbf'], 'gamma': [0.64, 0.66, 0.68, 0.70, 0.72, 0.74, 0.76, 0.78, 0.80]}]
 grid_search = GridSearchCV(estimator = classifier,
                            param_grid = parameters,
                            scoring = 'accuracy',
