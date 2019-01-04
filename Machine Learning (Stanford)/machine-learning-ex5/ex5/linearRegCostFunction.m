@@ -32,6 +32,8 @@ thetaNoZero = [ 0; theta(2:end) ];
 % Put the whole cost function together.
 J = (1 / (2 * m)) * sum(squaredErrors) + (lambda / (2 * m)) * sum(thetaNoZero .^ 2);
 
+grad = (1 / m) .* (X' * (h - y)) + (lambda / m) * thetaNoZero;
+
 % =========================================================================
 
 grad = grad(:);
