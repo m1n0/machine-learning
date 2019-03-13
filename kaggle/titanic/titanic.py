@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import cross_val_score
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -68,12 +69,9 @@ classifiers = {
 
 for type, classifier in classifiers.items():
     print(f"\n--- {type} ---")
-    classifier.fit(X_train, y_train)
-    y_pred = classifier.predict(X_test)
+    scores = cross_val_score(classifier, X_all, y_all, cv = 10)
+    accuracy = np.mean(scores)
+    min = np.min(scores)
+    max = np.max(scores)
 
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f"\nAccuracy: {accuracy}")
-
-    cm = confusion_matrix(y_test, y_pred)
-    cm_dataframe = pd.DataFrame(cm, columns=['Survived', 'Died'], index=[['Survived', 'Died']])
-    print(f"\n{cm_dataframe}\n")
+    print(f"\nAccuracy: {accuracy}\nMin: {min}\nMax: {max}\n")
