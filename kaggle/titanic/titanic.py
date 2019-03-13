@@ -69,7 +69,7 @@ classifiers = {
     "Gaussian Naive Bayes": GaussianNB(),
     "Decision Tree": DecisionTreeClassifier(criterion = 'entropy', random_state = 0),
     "Random Forest": RandomForestClassifier(criterion = 'entropy', n_estimators = 100, random_state = 0),
-    "Gradient Boost": GradientBoostingClassifier(n_estimators)
+    "Gradient Boost": GradientBoostingClassifier()
 }
 
 holdout = test
