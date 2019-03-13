@@ -13,7 +13,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 # Importing the dataset
 train = pd.read_csv("train.csv")
@@ -69,6 +69,7 @@ classifiers = {
     "Gaussian Naive Bayes": GaussianNB(),
     "Decision Tree": DecisionTreeClassifier(criterion = 'entropy', random_state = 0),
     "Random Forest": RandomForestClassifier(criterion = 'entropy', n_estimators = 100, random_state = 0),
+    "Gradient Boost": GradientBoostingClassifier(n_estimators)
 }
 
 holdout = test
