@@ -32,9 +32,43 @@ label_names = ["Missing", "Infant", "Child", "Teenager", "YoungAdult", "Adult", 
 train = process_age(train, cut_points, label_names)
 test = process_age(test, cut_points, label_names)
 
-# Family size.
+# Feature engineering
+## Family size.
 train["FamilySize"] = train["SibSp"] + train["Parch"] + 1
 test["FamilySize"] = test["SibSp"] + test["Parch"] + 1
+
+## Title
+def titles_in_name(name: str, titles: list):
+    for title in titles:
+        if title in name:
+            return title
+    return np.nan
+
+title_list=["Mrs", "Mr", "Master", "Miss", "Major", "Rev",
+            "Dr", "Ms", "Mlle","Col", "Capt", "Mme", "Countess",
+            "Don", "Jonkheer"]
+train["Title"] = train["Name"].map(lambda x: titles_in_name(x, title_list))
+test["Title"] = test["Name"].map(lambda x: titles_in_name(x, title_list))
+
+def categorize_titles(person):
+    title = person["Title"]
+
+    if title in ["Don", "Major", "Capt", "Jonkheer", "Rev", "Col"]:
+        return "Mr"
+    elif title in ["Countess", "Mme"]:
+        return "Mrs"
+    elif title in ["Mlle", "Ms"]:
+        return "Miss"
+    elif title in ["Dr"]:
+        if person["Sex"] == "Male":
+            return "Mr"
+        else:
+            return "Mrs"
+    else:
+        return title
+
+train["Title"] = train.apply(categorize_titles, axis=1)
+test["Title"] = test.apply(categorize_titles, axis=1)
 
 # Encode categorical values
 def add_encoded_columns(df, column):
@@ -43,18 +77,18 @@ def add_encoded_columns(df, column):
 
     return df
 
-categorical_features = ["AgeCategory", "Sex", "Embarked", "Pclass"]
+categorical_features = ["AgeCategory", "Sex", "Embarked", "Pclass", "Title"]
 
 for feature in categorical_features:
     train = add_encoded_columns(train, feature)
     test = add_encoded_columns(test, feature)
 
 # Make sure there are no missing values
-train['Fare'] = train['Fare'].fillna((train['Fare'].mean()))
-test['Fare'] = test['Fare'].fillna((test['Fare'].mean()))
+train["Fare"] = train["Fare"].fillna((train["Fare"].mean()))
+test["Fare"] = test["Fare"].fillna((test["Fare"].mean()))
 
 # Prepare train/test set.
-columns = ["Fare", "AgeCategory_Child", "AgeCategory_Teenager", "AgeCategory_YoungAdult", "AgeCategory_Adult", "AgeCategory_Senior", "Sex_female", "Sex_male", "Embarked_C", "Embarked_Q", "Embarked_S", "Pclass_1", "Pclass_2", "Pclass_3", "FamilySize"]
+columns = ["Fare", "AgeCategory_Child", "AgeCategory_Teenager", "AgeCategory_YoungAdult", "AgeCategory_Adult", "AgeCategory_Senior", "Sex_female", "Sex_male", "Embarked_C", "Embarked_Q", "Embarked_S", "Pclass_1", "Pclass_2", "Pclass_3", "FamilySize", "Title_Mr", "Title_Mrs", "Title_Miss", "Title_Master"]
 X_all = train[columns]
 y_all = train["Survived"]
 
@@ -63,12 +97,12 @@ X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, test_size = 0.
 # Prepare classifiers.
 classifiers = {
     "Logistic Regression": LogisticRegression(random_state = 0, solver="lbfgs", max_iter = 10000),
-    "KNN": KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2),
-    "SVM": SVC(kernel = 'linear', random_state = 0),
-    "Kernel SVM": SVC(kernel = 'rbf', random_state = 0),
+    "KNN": KNeighborsClassifier(n_neighbors = 5, metric = "minkowski", p = 2),
+    "SVM": SVC(kernel = "linear", random_state = 0),
+    "Kernel SVM": SVC(kernel = "rbf", random_state = 0),
     "Gaussian Naive Bayes": GaussianNB(),
-    "Decision Tree": DecisionTreeClassifier(criterion = 'entropy', random_state = 0),
-    "Random Forest": RandomForestClassifier(criterion = 'entropy', n_estimators = 100, random_state = 0),
+    "Decision Tree": DecisionTreeClassifier(criterion = "entropy", random_state = 0),
+    "Random Forest": RandomForestClassifier(criterion = "entropy", n_estimators = 100, random_state = 0),
     "Gradient Boost": GradientBoostingClassifier()
 }
 
