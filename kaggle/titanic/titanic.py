@@ -8,6 +8,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_score
 
+import pickle
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
@@ -109,6 +111,9 @@ classifiers = {
 holdout = test
 holdout_predictions = {}
 
+best_accuracy = 0
+best_model = None
+
 # Fit, predict and output.
 for type, classifier in classifiers.items():
     print(f"\n--- {type} ---")
@@ -116,6 +121,10 @@ for type, classifier in classifiers.items():
     accuracy = np.mean(scores)
     min = np.min(scores)
     max = np.max(scores)
+
+    if accuracy > best_accuracy:
+        best_accuracy = accuracy
+        best_model = (type, classifier)
 
     print(f"\nAccuracy: {accuracy}\nMin: {min}\nMax: {max}\n")
     print(f"Fitting on all data, predicting test data...\n")
@@ -129,3 +138,14 @@ for type, classifier in classifiers.items():
 
     submission = pd.DataFrame(submission_df)
     submission.to_csv(f"titanic_{type}.csv", index=False)
+
+print(f"\n...creating models and calculating predictions done.")
+
+print(f"\n\nSaving best model for later use:")
+print(f"\n{best_model[0]}")
+
+pickle.dump(
+    best_model[1],
+    open(f"model/{best_model[0].lower().replace(' ', '_')}_classifier.model",
+    "wb")
+)
