@@ -2,3 +2,4 @@
 token.mat
 __pycache*
 kaggle/env
+*.ipynb_checkpoints*
