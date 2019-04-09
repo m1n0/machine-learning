@@ -137,7 +137,7 @@ for type, classifier in classifiers.items():
                      "Survived": holdout_predictions[type]}
 
     submission = pd.DataFrame(submission_df)
-    submission.to_csv(f"titanic_{type}.csv", index=False)
+    submission.to_csv(f"predictions/titanic_{type}.csv", index=False)
 
 print(f"\n...creating models and calculating predictions done.")
 
