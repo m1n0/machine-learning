@@ -90,7 +90,7 @@ train["Fare"] = train["Fare"].fillna((train["Fare"].mean()))
 test["Fare"] = test["Fare"].fillna((test["Fare"].mean()))
 
 # Prepare train/test set.
-columns = ["Fare", "AgeCategory_Child", "AgeCategory_Teenager", "AgeCategory_YoungAdult", "AgeCategory_Adult", "AgeCategory_Senior", "Sex_female", "Sex_male", "Embarked_C", "Embarked_Q", "Embarked_S", "Pclass_1", "Pclass_2", "Pclass_3", "FamilySize", "Title_Mr", "Title_Mrs", "Title_Miss", "Title_Master"]
+columns = ["Fare", "AgeCategory_Infant", "AgeCategory_Child", "AgeCategory_Teenager", "AgeCategory_YoungAdult", "AgeCategory_Adult", "AgeCategory_Senior", "Sex_female", "Sex_male", "Embarked_C", "Embarked_Q", "Embarked_S", "Pclass_1", "Pclass_2", "Pclass_3", "FamilySize", "Title_Mr", "Title_Mrs", "Title_Miss", "Title_Master"]
 X_all = train[columns]
 y_all = train["Survived"]
 
