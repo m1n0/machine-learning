@@ -2,8 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
-
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_score
@@ -93,8 +91,6 @@ test["Fare"] = test["Fare"].fillna((test["Fare"].mean()))
 columns = ["Fare", "AgeCategory_Infant", "AgeCategory_Child", "AgeCategory_Teenager", "AgeCategory_YoungAdult", "AgeCategory_Adult", "AgeCategory_Senior", "Sex_female", "Sex_male", "Embarked_C", "Embarked_Q", "Embarked_S", "Pclass_1", "Pclass_2", "Pclass_3", "FamilySize", "Title_Mr", "Title_Mrs", "Title_Miss", "Title_Master"]
 X_all = train[columns]
 y_all = train["Survived"]
-
-X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, test_size = 0.2, random_state = 0)
 
 # Prepare classifiers.
 classifiers = {
