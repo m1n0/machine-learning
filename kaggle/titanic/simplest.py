@@ -14,9 +14,11 @@ test["Sex"] = pd.factorize(test["Sex"])[0]
 # Fill in the missing values
 train["Fare"] = train["Fare"].fillna((train["Fare"].mean()))
 test["Fare"] = test["Fare"].fillna((test["Fare"].mean()))
+train["Age"] = train["Age"].fillna((train["Age"].mean()))
+test["Age"] = test["Age"].fillna((test["Age"].mean()))
 
 # Prepare train/test set.
-columns = ["Fare", "Sex", "Pclass"]
+columns = ["Fare", "Sex", "Pclass", "Age"]
 X_all = train[columns]
 y_all = train["Survived"]
 X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, test_size = 0.2, random_state = 0)
